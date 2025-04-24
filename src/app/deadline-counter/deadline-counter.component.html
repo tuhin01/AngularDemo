@@ -1,3 +1,4 @@
+<p>Question 1 - Please check deadline-counter.component.ts file for code</p>
 <div *ngIf="!error; else errorTemplate">
   <p>Seconds left to deadline: <span *ngIf="!loading; else loadingTemplate">{{ secondsLeft$ | async }}</span></p>
 </div>
@@ -7,3 +8,4 @@
 <ng-template #loadingTemplate>
   <span>Please wait...</span>
 </ng-template>
+
