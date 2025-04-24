@@ -1,0 +1,9 @@
+<div *ngIf="!error; else errorTemplate">
+  <p>Seconds left to deadline: <span *ngIf="!loading; else loadingTemplate">{{ secondsLeft$ | async }}</span></p>
+</div>
+<ng-template #errorTemplate>
+  <p class="error">Error loading deadline data</p>
+</ng-template>
+<ng-template #loadingTemplate>
+  <span>Please wait...</span>
+</ng-template>
