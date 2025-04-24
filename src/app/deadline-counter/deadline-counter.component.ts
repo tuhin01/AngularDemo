@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {firstValueFrom, lastValueFrom, Observable, Subscription, switchMap, timer} from 'rxjs';
+import {firstValueFrom, map, Observable, Subscription, timer} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {AsyncPipe, CommonModule} from '@angular/common';
 import {environment} from '../../environments/environment';
@@ -47,16 +47,15 @@ export class DeadlineCounterComponent implements OnInit, OnDestroy {
 
   private async fetchInitialSeconds(): Promise<number> {
     const apiUrl = `${environment.apiUrl}/company/deadline`;
-    const response: DeadlineResponse = await lastValueFrom(this.http.get<DeadlineResponse>(apiUrl));
+    const response: DeadlineResponse = await firstValueFrom(this.http.get<DeadlineResponse>(apiUrl));
     return response.secondsLeft;
   }
 
   private setupCountdown(initialSeconds: number): void {
     // Create an observable that emits every second and decrements the count
     this.secondsLeft$ = timer(0, 1000).pipe(
-      switchMap(tick => {
-        const secondsLeft = Math.max(0, initialSeconds - tick);
-        return [secondsLeft];
+      map(tick => {
+        return Math.max(0, initialSeconds - tick);
       })
     );
   }
